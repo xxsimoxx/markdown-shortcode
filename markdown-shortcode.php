@@ -23,9 +23,6 @@
 
 namespace XXSimoXX\MarkdownShortcode;
 
-require_once 'vendor/autoload.php';
-use League\CommonMark\GithubFlavoredMarkdownConverter;
-
 class MarkdownShortcode {
 
 	const COMMONMARK_SETTINGS = [
@@ -36,7 +33,7 @@ class MarkdownShortcode {
 	public function __construct() {
 		add_shortcode('md', [$this, 'process_shortcode']);
 		remove_filter('the_content', 'do_shortcode');
-		add_filter('the_content', 'do_shortcode', 5);
+		add_filter('the_content', 'do_shortcode', 9);
 	}
 
 
@@ -51,6 +48,7 @@ class MarkdownShortcode {
 		 */
 		$settings = apply_filters('markdownshortcode_converter_setting', self::COMMONMARK_SETTINGS);
 
+		require_once  __DIR__.'/vendor/autoload.php';
 		$converter = new \League\CommonMark\GithubFlavoredMarkdownConverter($settings);
 		return $converter->convert($content);
 	}
